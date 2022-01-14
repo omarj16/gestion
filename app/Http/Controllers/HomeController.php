@@ -30,18 +30,17 @@ class HomeController extends Controller
     public function index()
     {
 
-        $objeto = new Newid;
-
+        $objeto = new Newid; /* se crea objeto para invocar al modelo Newid */
 
         $cola1 = $objeto->cola1();
 
         $cola2 = $objeto->cola2();
 
-        $countcola1 = $objeto->obtenerNroPersonas1();
+        $countcola1 = $objeto->obtenerNroPersonas1(); /* enumera las personas en lista de la cola 1 */
 
-        $countcola2 = $objeto->obtenerNroPersonas2();
+        $countcola2 = $objeto->obtenerNroPersonas2(); /* enumera las personas en lista de la cola 2 */
 
-        $now =   \Carbon\Carbon::parse(NOW());
+        $now =   \Carbon\Carbon::parse(NOW()); /* asignar fecha actual */
 
 
             if($cola1==null ){
@@ -99,18 +98,17 @@ class HomeController extends Controller
 
                     
                       
+                        /* se calcula el tiempo transcurrido */
                 
                         $cola1= \Carbon\Carbon::parse($cola1);
                         $cola2= \Carbon\Carbon::parse($cola2);
 
                         $minutosCola1 = (strtotime($cola1)-strtotime($now))/60;
                         $minutosCola1 = abs($minutosCola1); 
-                        //$minutosCola1 = date("d/m/Y H:i:s",floor($minutosCola1));
-
+                        
                         $minutosCola2 = (strtotime($cola2)-strtotime($now))/60;
                         $minutosCola2 = abs($minutosCola2); 
-                        //$minutosCola2 = date("d/m/Y H:i:s",floor($minutosCola2));
-                    
+                        
 
 
 
@@ -118,19 +116,22 @@ class HomeController extends Controller
                 
                         $update1 = $objeto->updateCola1($now,$idCola1);
                         $update2 = $objeto->updateCola2($now,$idCola2);
-                    
+                        /* se modifica la condición de ya atendido si ha transcurrido 2 minutos o 3 según el numero de la cola */
+
             }elseif($minutosCola2>=3){
 
                         $update2 = $objeto->updateCola2($now,$idCola2);
+                        /* se modifica la condición de ya atendido si ha transcurrido 3 en la cola 2 */
+
 
             }elseif($minutosCola1>=2){
                         
                         $update1 = $objeto->updateCola1($now,$idCola1);
-
+                        /* se modifica la condición de ya atendido si ha transcurrido 2 en la cola 1 */
             }
 
 
-        $personas1 = $objeto->obtenerNroPersonas1();
+        $personas1 = $objeto->obtenerNroPersonas1(); /* número de personas asignadas a la cola 1 */
         
                           foreach($personas1 as $persona1){
 
@@ -138,7 +139,7 @@ class HomeController extends Controller
                          }
 
 
-        $personas2 = $objeto->obtenerNroPersonas2();
+        $personas2 = $objeto->obtenerNroPersonas2(); /* número de personas asignadas a la cola 2 */
 
                           foreach($personas2 as $persona2){
 
